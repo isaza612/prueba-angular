@@ -1,0 +1,18 @@
+table {
+    img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+
+    a {
+        cursor: pointer;
+        text-decoration: none;
+    }
+}
+
+#modalProduct {
+    img {
+        max-width: 50%;
+    }
+}

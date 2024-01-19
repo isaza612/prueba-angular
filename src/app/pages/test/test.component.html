@@ -1,0 +1,19 @@
+<app-nav [activeProducts]="''" [activeTest]="'active'" />
+<br>
+<div class="container">
+    <h1>Weather Forecast Bogotá</h1>
+
+    @for(daily of dailyList; track $index){
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{daily.time | date : 'yyyy-MM-dd'}}</h5>
+                <p class="card-text">
+                    <b>Average apparent temperature:</b> {{daily.values.temperatureApparentAvg}}
+                    <br>
+                    <b>Maximum apparent temperature:</b> {{daily.values.temperatureApparentMax}}
+                </p>
+            </div>
+        </div>
+        <br>
+    }
+</div>

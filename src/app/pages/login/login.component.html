@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="position-absolute top-50 start-50 translate-middle border border-1 p-3">
+        <div class="row">
+            <h2>Proyecto Angular 17</h2>
+            <hr>
+        </div>
+        <div class="row">
+            <form [formGroup]="loginForm" (submit)="login($event)">
+                <div class="mb-3">
+                    <label for="user" class="form-label">User</label>
+                    <input type="text" class="form-control" id="user" formControlName="user" placeholder="admin"
+                        [ngClass]="{'is-invalid' : userRequired}" (focus)="focusUser()">
+                    @if (userRequired) {
+                    <span class="text-danger fs-6">User is required</span>
+                    }
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" formControlName="password"
+                        placeholder="*****" [ngClass]="{'is-invalid' : passwordRequired}" (focus)="focusPassword()">
+                    @if (passwordRequired) {
+                    <span class="text-danger">Password is required</span>
+                    }
+                </div>
+                @if (invalidLogin) {
+                <div class="mb-3">
+                    <span class="text-danger">Incorrect username and/or password</span>
+                </div>
+                }
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    <span> Loguin</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,143 @@
+<app-nav [activeProducts]="'active'" [activeTest]="''" />
+<br>
+<div class="container">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" style="width:100%"
+        class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Image</th>
+                <th>Title</th>
+                <th style="width: 40%;">Description</th>
+                <th>Price</th>
+                <th style="width: 8%;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (product of productList; track $index){
+            <tr>
+                <td class="align-middle">{{product.id}}</td>
+                <td class="align-middle">
+                    @if(product.image != ''){
+                    <img src="{{product.image}}">
+                    } @else {
+                    <img src="../../../assets/product.png">
+                    }
+                </td>
+                <td class="align-middle">{{product.title}}</td>
+                <td class="align-middle">{{product.description | truncateString : 60}}</td>
+                <td class="align-middle">{{product.price | currency}}</td>
+                <td class="align-middle">
+                    <a class="text-success fst-italic" (click)="editProducto(product.id)">
+                        <span>Edit </span>
+                        <i class="bi bi-pencil-fill"></i>
+                    </a>
+                    <br>
+                    <a class="text-danger fst-italic" (click)="deleteProduct(product.id)">
+                        <span>Delete </span>
+                        <i class="bi bi-trash3"></i>
+                    </a>
+                </td>
+            </tr>
+            }
+    </table>
+</div>
+<br>
+<hr>
+<nav class="text-center">
+    <button type="button" class="btn btn-primary" (click)="newProduct()">
+        <i class="bi bi-plus-circle"></i>
+        <span> New product</span>
+    </button>
+</nav>
+<br><br>
+
+<!-- Modal Product -->
+<div class="modal" id="modalProduct">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{titleModal}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="closeModalProduct()"></button>
+            </div>
+            <form [formGroup]="productForm" (submit)="saveProduct($event)">
+                <div class="modal-body">
+                    <div class="fw-medium text-center">
+                        <img src="{{product?.image}}" class="img-fluid">
+                    </div>
+                    <div class="fw-medium">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" (focus)="focusTitle()"
+                            formControlName="title" value="{{product?.title}}">
+                        @if(titleRequired){
+                        <span class="text-danger fs-6">Title is required</span>
+                        }
+                    </div>
+                    <div class="fw-medium">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="number" class="form-control" id="price" formControlName="price"
+                            value="{{product?.price}}" (focus)="focusPrice()">
+                        @if(priceRequired){
+                        <span class="text-danger fs-6">Price is required</span>
+                        }
+                    </div>
+                    <div class="fw-medium">
+                        <label for="floatingTextarea" class="form-label">Description</label>
+                        <textarea class="form-control" id="floatingTextarea" (focus)="focusDescription()"
+                            style="height: 100px;" formControlName="description"></textarea>
+                        @if(descriptionRequired){
+                        <span class="text-danger fs-6">Description is required</span>
+                        }
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        (click)="closeModalProduct()">
+                        <i class="bi bi-x-lg"></i>
+                        <span> Close</span>
+                    </button>
+                    <button type="submit" class="btn btn-primary" [disabled]="editandoProducto">
+                        @if(editandoProducto){
+                        <i class="spinner-border spinner-border-sm"></i>
+                        } @else {
+                        <i class="bi bi-check-lg"></i>
+                        }
+                        <span> Save</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal eliminar product -->
+<div class="modal" tabindex="-1" id="deleteProduct">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="closeModalDelete()"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete product <b>{{idProductDelete}}</b>?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModalDelete()">
+                    <i class="bi bi-x-lg"></i>
+                    <span> No</span>
+                </button>
+                <button type="button" class="btn btn-primary" (click)="confirmDeleteProduct(idProductDelete)"
+                    [disabled]="eliminandoProduct">
+                    @if(eliminandoProduct){
+                    <i class="spinner-border spinner-border-sm"></i>
+                    } @else {
+                    <i class="bi bi-check-lg"></i>
+                    }
+                    <span> Yes</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
